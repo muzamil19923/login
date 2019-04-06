@@ -18,4 +18,3 @@ mongoose.connect(dbURI, options).then(
  }
 );
 
-require('./register.js');
