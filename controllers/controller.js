@@ -1,22 +1,7 @@
 var mongoose = require('mongoose');
-//var User = mongoose.model('User');
 var bcrypt = require("bcrypt");
 const User = require('../models/User');
 
-// var createUser = (req,res) => {
-//     var user = new User({
-//         "username": req.body.name,
-//         "password": bcrypt.hashSync("req.body.password",10),
-//         "re_password": bcrypt.hashSync("req.body.re_password",10)
-//     });
-//     user.save(function(err,newUser){
-//         if(!err){
-//             res.send(newUser);
-//            }else{
-//                 res.sendStatus(400);
-//            }
-//     })
-// };
 var createUser = (req, res, next) => {
     const { body } = req;
     const {
@@ -89,6 +74,5 @@ var createUser = (req, res, next) => {
     });
 };
 
-
- module.exports.createUser = createUser;
+module.exports.createUser = createUser;
 
