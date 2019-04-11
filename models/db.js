@@ -6,7 +6,7 @@ const dbURI =
 
 const options = {
   useNewUrlParser: true,
-  dbName: "INFO30005"
+  dbName: "Sample"
 };
 
 mongoose.connect(dbURI, options).then(

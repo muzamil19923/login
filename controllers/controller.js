@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require("bcrypt");
 const User = require('../models/User');
+const UserSession = require('../models/UserSession');
 
 var createUser = (req, res, next) => {
     const { body } = req;
@@ -74,5 +75,98 @@ var createUser = (req, res, next) => {
     });
 };
 
-module.exports.createUser = createUser;
+var signIn = (req, res, next) => {
+    const { body } = req;
+    const {
+        password
+    } = body;
+    let {
+        email
+    } = body;
 
+    if (!email) {
+        return res.send({
+            success: false,
+            message: 'Error: Email cannot be empty '
+        });
+    }
+    if (!password) {
+        return res.send({
+            success: false,
+            message: 'Error: Password cannot be empty '
+        });
+    }
+
+    email = email.toLowerCase();
+
+    User.find({
+        email: email
+    }, (err, users) => {
+        if (err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server Error'
+            });
+        }
+        if (users.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Username Not Found'
+            });
+        }
+        const user = users[0];
+        if (!user.validPassword(password)) {
+            return res.send({
+                success: false,
+                message: 'Password doesnt not match'
+            });
+        }
+
+        //If the username and password is corecrt then
+        const userSession = new UserSession();
+        userSession.userId = user._id;
+
+        userSession.save((err, doc) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server error'
+                });
+            }
+            return res.send({
+                success: true,
+                message: ' Logged In',
+                token: doc._id
+            });
+        });
+    });
+};
+
+var signOut = (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+    UserSession.findOneAndUpdate({
+        _id: token,
+        isDeleted: false
+    }, {
+            $set: {
+                isDeleted: true
+            }
+        }, null, (err, sessions) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            }
+            return res.send({
+                success: true,
+                message: 'Logout Succesful'
+            });
+        });
+};
+
+
+module.exports.createUser = createUser;
+module.exports.signIn = signIn;
+module.exports.signOut = signOut;
