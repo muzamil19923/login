@@ -1,27 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/styl.css">
 </head>
-
 <body>
-    <h1>Home Page</h1>
-    <form action="/account/signIn" method="post">
-      Email ID : <input type="text" name="email"><br>
-      Password : <input type="text" name="password"><br>
-      <input type="submit" value="Submit">
-    </form> 
 
-    <form action="/account/signup" method="post">
-      First Name : <input type="text" name="firstName"><br>
-      Last Name  : <input type="text" name="lastName"><br>
-      Email ID : <input type="text" name="email"><br>
-      Password : <input type="text" name="password"><br>
-      <input type="submit" value="Submit">
+  <h2>Modal Signup Form</h2>
+
+  <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+
+  <div id="id01" class="modal">
+    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+      title="Close Modal">&times;</span>
+    <form action="/account/signup" method="post" style="border:1px solid #ccc">
+      <div class="container">
+        <h1>Sign Up</h1>
+        <p>Please fill in this form to create an account.</p>
+        <hr>
+
+        <label><b>First Name </b></label>
+        <input type="text" placeholder="First Name " name="firstName" required><br>
+
+        <label><b>Last Name </b></label>
+        <input type="text" placeholder="Last Name " name="lastName" required><br>
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required><br>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required><br>
+
+
+
+        <label>
+          <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+        </label>
+
+        <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+        <div class="clearfix">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <button type="submit" class="signupbtn">Sign Up</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+  <br><br>
+  <div class="clearfix">
     <ul>
       <li>
         <a href="/userDetails"> User details page</a>
@@ -33,7 +70,7 @@
         <a href="/coursePlan"> Course Plan details page</a>
       </li>
     </ul>
-
+  </div>
 </body>
 
 </html>
